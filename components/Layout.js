@@ -3,11 +3,11 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-const Layout = ({ children }) => {
+const Layout = ({ title, children }) => {
   return (
     <div>
       <Head>
-        <title>EC site</title>
+        <title>{title ? `${title} - EC site` : "EC site"}</title>
       </Head>
       <header>
         <nav className="bg-yellow-600 w-screen static">
@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
               <Link href="/">
                 <a
                   // data-testid="home-nav"
-                  className="text-white hover:bg-yellow-700 px-3 py-2 rounded"
+                  className="text-white hover:bg-yellow-700 px-3 py-2 rounded-md"
                 >
                   商品一覧
                 </a>
