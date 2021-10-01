@@ -3,11 +3,12 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-const Layout = ({ title, children }) => {
+const Layout = ({ title, description, children }) => {
   return (
     <div>
       <Head>
         <title>{title ? `${title} - EC site` : "EC site"}</title>
+        {description && <meta name="description" content={description}></meta>}
       </Head>
       <header>
         <nav className="bg-yellow-600 w-screen static">

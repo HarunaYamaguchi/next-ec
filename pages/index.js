@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/Layout";
-import data from "../utils/data";
+import db from "../utils/db";
+import Product from "../models/Product";
 
-export default function Home() {
+export default function Home(props) {
+  const { products } = props;
   return (
     <Layout>
       <div>
@@ -11,7 +13,7 @@ export default function Home() {
         <div className="bg-white">
           <div>
             <div className="mt-6 mx-2 grid grid-cols-1 gap-y-10 gap-x-5 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 rounded overflow-hidden shadow-lg">
-              {data.products.map((product) => (
+              {products.map((product) => (
                 <div key={product.id} className="group relative">
                   <Link href={`/product/${product.slug}`}>
                     <a>
@@ -40,9 +42,7 @@ export default function Home() {
                           </h3>
                         </div>
                       </div>
-                      <button>
-                        <a>詳細を見る</a>
-                      </button>
+                      <button type="submit">詳細を見る</button>
                     </a>
                   </Link>
                 </div>
@@ -53,4 +53,15 @@ export default function Home() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps() {
+  await db.connect();
+  const products = await Product.find({}).lean();
+  await db.disconnect();
+  return {
+    props: {
+      products: products.map(db.convertDocToObj),
+    },
+  };
 }
