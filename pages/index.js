@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/Layout";
 import db from "../utils/db";
-import Product from "../models/Product";
+import Product from "../models/ProductSchema";
 
 export default function Home(props) {
   const { products } = props;

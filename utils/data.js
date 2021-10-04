@@ -61,6 +61,43 @@ const data = {
       imageUrl: "/images/6.jpg",
     },
   ],
+  toppings: [
+    {
+      id: 1,
+      slug: "coffeecream",
+      name: "コーヒークリーム",
+      Mprice: 200,
+      Lprice: 300,
+    },
+    {
+      id: 2,
+      slug: "lowcoloriemilk",
+      name: "低脂肪牛乳",
+      Mprice: 200,
+      Lprice: 300,
+    },
+    {
+      id: 3,
+      slug: "nonfatmilk",
+      name: "無脂肪牛乳",
+      Mprice: 200,
+      Lprice: 300,
+    },
+    {
+      id: 4,
+      slug: "soymilk",
+      name: "豆乳",
+      Mprice: 200,
+      Lprice: 300,
+    },
+    {
+      id: 5,
+      slug: "allmilk",
+      name: "オールミルク",
+      Mprice: 200,
+      Lprice: 300,
+    },
+  ],
 };
 
 export default data;

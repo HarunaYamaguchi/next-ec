@@ -2,15 +2,24 @@ import React from "react";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import Image from "next/image";
+import data from "../../utils/data";
 import Product from "../../models/ProductSchema";
 import db from "../../utils/db";
+import axios from "axios";
+import { Store } from "../../utils/Store";
 
 export default function ProductDetail(props) {
+  const { state, dispatch } = useContext(Store);
   const { product } = props;
 
   if (!product) {
     return <div>商品はございません</div>;
   }
+
+  const addToCart = async () => {
+    const { data } = await axios.get(`/api/products/${product.id}`);
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity: 1 } });
+  };
 
   return (
     <Layout title={product.name} description={product.description}>
@@ -34,48 +43,52 @@ export default function ProductDetail(props) {
         <div>
           <div className="py-24 px-4 grid items-center grid-cols-1 gap-y-8 gap-x-8 sm:px-6 sm:py-32 lg:max-w-7xl">
             <p className="sm:text-xl md:text-2xl lg:text-4xl">{product.name}</p>
-            <p className="text-gray-500">{product.description}</p>
-            <p className="text-xl">
-              Mサイズ：{product.Mprice}円
-              <select
-                name="Msize"
-                id="Msize"
-                className="ml-6 py-0.5 px-0.5 bg-gray-400 rounded"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </p>
-            <p className="text-xl">
-              Lサイズ：{product.Lprice}円
-              <select
-                name="Lsize"
-                id="Lsize"
-                className="ml-6 py-0.5 px-0.5 bg-gray-400 rounded m-auto"
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </p>
+            <p className="flex-wrap text-gray-500">{product.description}</p>
+
+            <div className="flex justify-content sm:text-xl md:text-xl lg:text-2xl">
+              <label>
+                <input type="radio" name="size" value={product.Mprice} />
+                <span className="text-xl mx-3">M：{product.Mprice}円</span>
+              </label>
+              <label>
+                <input type="radio" name="size" value={product.Lprice} />
+                <span className="text-xl mx-3">L：{product.Lprice}円</span>
+              </label>
+            </div>
+            <div>
+              ＊トッピング＊
+              <div>
+                {data.toppings.map((topping) => (
+                  <div key={topping.id}>
+                    <div>{topping.name}</div>
+                    <label htmlFor="toppingSize">
+                      <span className="mx-3">普通:</span>
+                      <input
+                        type="radio"
+                        name="topping"
+                        value={topping.Mprice}
+                        className="mr-1"
+                      />
+                      {topping.Mprice}円
+                    </label>
+                    <label htmlFor="toppingSize">
+                      <span className="mx-3">多め:</span>
+                      <input
+                        type="radio"
+                        name="topping"
+                        value={topping.Lprice}
+                        className="mr-1"
+                      />
+                      {topping.Lprice}円
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
             <button
               type="submit"
               className="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-2 rounded-md w-auto"
+              onClick={addToCart}
             >
               カートに追加
             </button>
