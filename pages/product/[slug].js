@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "../../components/Layout";
 import Image from "next/image";
@@ -9,6 +10,19 @@ import axios from "axios";
 import { Store } from "../../utils/Store";
 
 export default function ProductDetail(props) {
+  // サイズの取得
+  const [size, setSize] = useState("M");
+  const changeSize = (e) => {
+    setSize(e.target.value);
+  };
+
+  // 個数の取得
+  const [buyNum, setBuyNum] = useState("1");
+  const changeBuyNum = (e) => {
+    setSize(e.target.value);
+  };
+
+  const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { product } = props;
 
@@ -16,10 +30,10 @@ export default function ProductDetail(props) {
     return <div>商品はございません</div>;
   }
 
-  const addToCart = async () => {
-    const { data } = await axios.get(`/api/products/${product.id}`);
-    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity: 1 } });
-  };
+  // const addToCart = async () => {
+  //   const { data } = await axios.get(`/api/products/${product.id}`);
+  //   dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity: 1 } });
+  // };
 
   return (
     <Layout title={product.name} description={product.description}>
@@ -33,8 +47,7 @@ export default function ProductDetail(props) {
           <Image
             src={product.imageUrl}
             alt="商品画像"
-            className="rounded-2xl "
-            // layout="fill"
+            className="rounded-2xl"
             width={580}
             height={580}
             objectFit="contain"
@@ -47,14 +60,25 @@ export default function ProductDetail(props) {
 
             <div className="flex justify-content sm:text-xl md:text-xl lg:text-2xl">
               <label>
-                <input type="radio" name="size" value={product.Mprice} />
+                <input
+                  type="radio"
+                  name="size"
+                  value="M"
+                  onChange={(e) => changeSize(e)}
+                />
                 <span className="text-xl mx-3">M：{product.Mprice}円</span>
               </label>
               <label>
-                <input type="radio" name="size" value={product.Lprice} />
+                <input
+                  type="radio"
+                  name="size"
+                  value="L"
+                  onChange={(e) => changeSize(e)}
+                />
                 <span className="text-xl mx-3">L：{product.Lprice}円</span>
               </label>
             </div>
+
             <div>
               ＊トッピング＊
               <div>
@@ -85,13 +109,16 @@ export default function ProductDetail(props) {
                 ))}
               </div>
             </div>
-            <button
-              type="submit"
-              className="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-2 rounded-md w-auto"
-              onClick={addToCart}
-            >
-              カートに追加
-            </button>
+            <Link href="/cart">
+              <a>
+                <button
+                  type="submit"
+                  className="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-2 rounded-md w-auto"
+                >
+                  カートに追加
+                </button>
+              </a>
+            </Link>
           </div>
         </div>
       </div>

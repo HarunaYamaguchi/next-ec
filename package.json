@@ -11,6 +11,8 @@
   "dependencies": {
     "autoprefixer": "^10.3.6",
     "axios": "^0.22.0",
+    "bcryptjs": "^2.4.3",
+    "js-cookie": "^3.0.1",
     "mongoose": "^6.0.8",
     "next": "11.1.2",
     "next-connect": "^0.10.2",

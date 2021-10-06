@@ -9,7 +9,7 @@ export default function Home(props) {
   return (
     <Layout>
       <div>
-        <h1 className="text-4xl">Products</h1>
+        <p className="text-2xl">商品一覧</p>
         <div className="bg-white">
           <div>
             <div className="mt-6 mx-2 grid grid-cols-1 gap-y-10 gap-x-5 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 rounded overflow-hidden shadow-lg">
@@ -21,8 +21,7 @@ export default function Home(props) {
                         <Image
                           src={product.imageUrl}
                           alt="商品画像"
-                          // className="object-center object-cover"
-                          // layout="fill"
+                          className="rounded"
                           width={300}
                           height={300}
                           objectFit="contain"
@@ -31,7 +30,7 @@ export default function Home(props) {
 
                       <div className="mt-4 flex justify-between">
                         <div>
-                          <h3 className="text-hl text-gray-700">
+                          <p className="text-hl text-gray-700 text-2xl">
                             <a href="#">
                               <span
                                 aria-hidden="true"
@@ -39,10 +38,15 @@ export default function Home(props) {
                               />
                               {product.name}
                             </a>
-                          </h3>
+                          </p>
                         </div>
                       </div>
-                      <button type="submit">詳細を見る</button>
+                      <button
+                        type="submit"
+                        className="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-2 rounded-md w-auto"
+                      >
+                        詳細を見る
+                      </button>
                     </a>
                   </Link>
                 </div>
